@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 int main()
 {
@@ -10,6 +9,7 @@ int main()
      int n;
      char rech[50];
      char supp[50];
+     int i, j;
     do {
         printf("\n===== Menu principal =====\n");
         printf("1. Ajouter un contact.\n");
@@ -32,10 +32,15 @@ int main()
                     printf("Ajouter le telephone:");
                     scanf("%s", tele[ajou]);
                     ajou++;
-                    printf("\nAJOUTER AVEC SUCCEE.\n");
                 }
+                printf("\nAJOUTER AVEC SUCCEE.\n");
                 break;
             case 2:
+                printf("\n====  Liste des contacts ====\n");
+                for (i = 0; i < ajou; i++) {
+                    printf("Nom: %s\n", nom[i]);
+                    printf("Telephone: %s\n", tele[i]);
+                }
 
                 break;
             case 3:
@@ -49,26 +54,30 @@ int main()
                 found = 1;
                 }
                 }
-                if (!found) {
+                if(!found){
                 printf("\nAucune contact trouvee pour le nom : **%s**\n", rech);
                  }
                 break;
             case 4:
-                printf("Entrer le nom du contact que vous vouler supprimer: ");
+                printf("\nEntrer le contact que vous voulez supprimer : ");
                 scanf("%s", supp);
-                ajou--;
-
-                if(supp < 0 || supp >= ajou){
-                    printf("Contact non disponible.\n");
+                found = 0;
+                for (i = 0; i < ajou; i++) {
+                    if (strcmp(nom[i], supp) == 0) {
+                        for (j = i; j < ajou - 1; j++) {
+                            strcpy(nom[j], nom[j + 1]);
+                            strcpy(tele[j], tele[j + 1]);
+                        }
+                    ajou--;
+                    found = 1;
+                    break;
+                    }
                 }
-                for(int i = supp; i < ajou - 1; i++){
-                    strcpy(nom[i], nom[i + 1]);
-                    strcpy(tele[i], tele[i + 1]);
-
+                if (found) {
+                    printf("Le contact a ete supprime.\n");
+                } else {
+                    printf("Aucun contact trouve pour supprimer.\n");
                 }
-                ajou--;
-                printf("Le contact a ete supprimee.\n");
-
                 break;
             case 5:
                 printf("\n+++ Au revoir ! +++\n");
